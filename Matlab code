@@ -1,0 +1,43 @@
+% Define the source and destination folders
+sourceFolder = 'C:\Users\hrith\AppData\Roaming\MathWorks\MATLAB Add-Ons\Collections\edfRead\copy dev'; % Folder with EDF files
+destinationFolder = 'D:\Msc Thesis\dev csv'; % Folder to save CSV files
+
+% Create destination folder if it doesn't exist
+if ~exist(destinationFolder, 'dir')
+    mkdir(destinationFolder);
+end
+
+% Get a list of all EDF files in the source folder
+edfFiles = dir(fullfile(sourceFolder, '*.edf'));
+
+% Loop through each EDF file and convert it to CSV with the same name
+for i = 1:length(edfFiles)
+    % Get full path of the EDF file
+    edfFile = fullfile(sourceFolder, edfFiles(i).name);
+    
+    try
+        % Read EDF file using the add-on function
+        [hdr, record] = edfread(edfFile); 
+        
+        % Convert data to table format
+        data = array2table(record);
+        
+        % Extract original filename without extension
+        [~, fileName, ~] = fileparts(edfFiles(i).name);
+        
+        % Define CSV file name (same as original EDF name but with .csv)
+        csvFile = fullfile(destinationFolder, strcat(fileName, '.csv'));
+
+        % Save as CSV
+        writetable(data, csvFile);
+
+        % Display progress
+        fprintf('Converted: %s -> %s\n', edfFiles(i).name, strcat(fileName, '.csv'));
+
+    catch ME
+        fprintf('Error reading file: %s\n', edfFiles(i).name);
+        disp(ME.message);
+    end
+end
+
+disp('Batch conversion complete. CSV files saved in "D:\Msc Thesis\dev csv".');
