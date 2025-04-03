@@ -1,6 +1,6 @@
 % Define the source and destination folders
-sourceFolder = 'C:\Users\hrith\AppData\Roaming\MathWorks\MATLAB Add-Ons\Collections\edfRead\copy dev'; % Folder with EDF files
-destinationFolder = 'D:\Msc Thesis\dev csv'; % Folder to save CSV files
+sourceFolder = 'E:\eval edf'; % Folder with EDF files
+destinationFolder = 'E:\eval_csv'; % Folder to save CSV files
 
 % Create destination folder if it doesn't exist
 if ~exist(destinationFolder, 'dir')
